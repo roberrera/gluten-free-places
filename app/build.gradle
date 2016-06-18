@@ -22,13 +22,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    // Image handling
-    // Location services
-    // API handling
     compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    // Image handling
     compile 'com.squareup.picasso:picasso:2.5.2'
+    // Location services
     compile 'com.google.android.gms:play-services-maps:9.0.2'
     compile 'com.foursquare:foursquare-android-oauth:1.0.3'
+    // API handling
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.google.code.gson:gson:2.6.2'

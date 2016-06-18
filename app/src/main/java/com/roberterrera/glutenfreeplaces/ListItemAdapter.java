@@ -18,10 +18,6 @@ import java.util.ArrayList;
  */
 public class ListItemAdapter extends ArrayAdapter<Venues> {
 
-    public Context mContext;
-//    private String name, openStatus, icon;
-//    private int distance;
-
     public ListItemAdapter(Context context, ArrayList<Venues> users) {
         super(context, 0, users);
     }
@@ -30,6 +26,7 @@ public class ListItemAdapter extends ArrayAdapter<Venues> {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         Venues place = getItem(position);
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_layout_main, parent, false);
@@ -37,18 +34,16 @@ public class ListItemAdapter extends ArrayAdapter<Venues> {
         // Lookup view for data population
         TextView nameTextView = (TextView) convertView.findViewById(R.id.name_textView);
         TextView distanceTextView = (TextView) convertView.findViewById(R.id.distance_textView);
-//        TextView categoryTextView = (TextView) convertView.findViewById(R.id.category_textView);
         TextView openStatusTextView = (TextView) convertView.findViewById(R.id.textview_status);
         ImageView placeImageImageView = (ImageView) convertView.findViewById(R.id.imageView_mainActivity);
-//        ImageView forkknifeImage = (ImageView) convertView.findViewById(R.id.imageview_forkknife);
-//        ImageView nextArrow = (ImageView) convertView.findViewById(R.id.detailsarrow_imageview);
 
-        nameTextView.setText(MainActivity.name);
-        distanceTextView.setText(String.valueOf(MainActivity.distance));
+        nameTextView.setText(getItem(position).getName());
+        distanceTextView.setText(String.valueOf(Math.round(getItem(position).getLocation().getDistance()*.01)/10.0)+" miles away");
         openStatusTextView.setText("OPEN");
-        Picasso.with(mContext)
-                .load(MainActivity.icon)
-                .into(placeImageImageView);
+//        Picasso.with(getContext())
+//                .load(getItem(position).getCategories().getIcon().getPrefix()
+//                        +getItem(position).getCategories().getIcon().getPrefix())
+//                .into(placeImageImageView);
 
         // Return the completed view to render on screen
         return convertView;

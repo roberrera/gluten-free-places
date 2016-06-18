@@ -11,14 +11,6 @@ public class CategoryObject {
     private boolean primary;
     private IconObject icon;
 
-    public IconObject getIcon() {
-        return icon;
-    }
-
-    public void setIcon(IconObject icon) {
-        this.icon = icon;
-    }
-
     public int getId() {
         return id;
     }
@@ -59,4 +51,11 @@ public class CategoryObject {
         this.primary = primary;
     }
 
+    public IconObject getIcon() {
+        return icon;
+    }
+
+    public void setIcon(IconObject icon) {
+        this.icon = icon;
+    }
 }

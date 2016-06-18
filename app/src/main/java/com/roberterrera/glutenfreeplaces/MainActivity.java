@@ -40,24 +40,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private String[] locationPerms = {"android.permission.ACCESS_COURSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"};
-    private String provider;
-    private String locationProvider = LocationManager.NETWORK_PROVIDER;
     private final int locationRequestCode = 200;
-    public static String name, icon;
-    public static int distance;
+    private String provider;
+    public String name, icon;
+    public double distance;
     private double mLatitude, mLongitude;
-
+    public ArrayList<Venues> venuesList;
     private NetworkInfo networkInfo;
     private Location mLastLocation;
     private LocationManager locationManager;
     private GoogleApiClient mGoogleApiClient;
+    public ListItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setTitle("Gluten-Free Locations");
+        setTitle("Gluten-Free Places");
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
@@ -71,22 +71,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     .addApi(LocationServices.API)
                     .build();
         }
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = locationManager.getBestProvider(new Criteria(), true);
-        Location location = locationManager.getLastKnownLocation(provider);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            return;
-        }
-
-        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-        mLatitude = lastKnownLocation.getLatitude();
-        mLongitude = lastKnownLocation.getLongitude();
-
+        getUserLocation();
 
         // Load a list of places near the user's location.
         loadList();
@@ -107,29 +93,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .enqueue(new Callback<FoursquareResults>() {
                     @Override
                     public void onResponse(Call<FoursquareResults> call, Response<FoursquareResults> response) {
-                        ArrayList<Venues> venuesList = response.body().getResponse().getVenuesList();
-
-                        // Loop through the results and add their locations to the list.
-                        for (int j = 0; j <= venuesList.size() - 1; j++) {
-                            name = venuesList.get(j).getName();
-                            distance = venuesList.get(j).getLocation().getDistance();
-                            icon = venuesList.get(j).getCategories().getIcon().getPrefix()
-                                    + venuesList.get(j).getCategories().getIcon().getSuffix();
-
-
-                            Log.d("APIRESPONSE", name + ", " + String.valueOf(distance) + ", " + icon);
-                        }
-
+                        venuesList = response.body().getResponse().getVenuesList();
                         // Create the adapter to convert the array to views
-                        ListItemAdapter adapter = new ListItemAdapter(MainActivity.this, venuesList);
+                        adapter = new ListItemAdapter(MainActivity.this, venuesList);
 
                         // Attach the adapter to a ListView
                         ListView listView = (ListView) findViewById(R.id.listview_places_main);
+
                         listView.setAdapter(adapter);
+
+                        // Loop through the results and add their locations to the list.
+                        for (int j = 0; j <= venuesList.size() - 1; j++) {
+
+                            name = venuesList.get(j).getName();
+                            distance = venuesList.get(j).getLocation().getDistance();
+//                            distance = String.valueOf(Math.round(getDistance*.01)/10.0)+" miles away";
+
+//                            if (venuesList.get(j).getCategories() != null) {
+//                                icon = venuesList.get(j).getCategories().getIcon().getPrefix()
+//                                        + venuesList.get(j).getCategories().getIcon().getSuffix();
+//                            }
+
+                            adapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<FoursquareResults> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "Could not load list.", Toast.LENGTH_SHORT).show();
                         Log.d("ONFAILURE", t.toString());
                     }
                 });
@@ -139,12 +130,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public void getUserLocation() {
 
         if (networkInfo != null && networkInfo.isConnected()) {
-            if (mLastLocation != null) {
-                mLatitude = mLastLocation.getLatitude();
-                mLongitude = mLastLocation.getLongitude();
-            } else {
-                Toast.makeText(MainActivity.this, "Location unavailable.", Toast.LENGTH_SHORT).show();
+
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            provider = locationManager.getBestProvider(new Criteria(), true);
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                return;
             }
+
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
+            Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            mLatitude = lastKnownLocation.getLatitude();
+            mLongitude = lastKnownLocation.getLongitude();
         }
     }
 
@@ -201,8 +202,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (networkInfo != null && networkInfo.isConnected()) {
                 requestLocationPermissions();
                 // Open the map view
-                Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(mapIntent);
+//                Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
+//                startActivity(mapIntent);
+                Toast.makeText(MainActivity.this, "Tapped map button", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Map unavailable without an internet connection.", Toast.LENGTH_SHORT).show();
             }

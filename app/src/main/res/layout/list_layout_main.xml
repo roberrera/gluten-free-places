@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="10dp">
 
     <ImageView
-        android:layout_width="77dp"
-        android:layout_height="77dp"
+        android:layout_width="87dp"
+        android:layout_height="87dp"
         android:layout_marginLeft="19dp"
         android:layout_marginStart="19dp"
         android:layout_marginTop="19dp"
@@ -17,8 +17,8 @@
     <ImageView
         android:id="@+id/imageView_mainActivity"
         android:layout_margin="20dp"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         tools:background="#ffffff" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_toRightOf="@id/imageView_mainActivity"
         android:layout_toEndOf="@id/imageView_mainActivity"
         android:textColor="#000000"
-        android:textSize="25sp"
+        android:textSize="18sp"
         tools:text="Tulu's Bakery" />
 
     <TextView
@@ -53,7 +53,6 @@
         android:layout_below="@id/textview_status"
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
-        android:backgroundTint="#868686"
         android:src="@drawable/ic_chevron_right" />
 
 
@@ -65,19 +64,20 @@
         android:layout_toEndOf="@id/imageView_mainActivity"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_below="@id/name_textView"
+        android:layout_toLeftOf="@id/detailsarrow_imageview"
+        android:layout_toStartOf="@id/detailsarrow_imageview"
         tools:text="0.3 miles away"
         android:textColor="#9e9e9e" />
 
     <ImageView
         android:id="@+id/imageview_forkknife"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_toRightOf="@id/imageView_mainActivity"
         android:layout_toEndOf="@id/imageView_mainActivity"
         android:layout_below="@id/distance_textView"
         android:layout_marginTop="5dp"
-        android:src="@drawable/ic_restaurant"
-        android:backgroundTint="#868686"/>
+        android:src="@drawable/ic_restaurant"/>
 
     <TextView
         android:id="@+id/category_textView"
@@ -87,9 +87,10 @@
         android:layout_toEndOf="@id/imageview_forkknife"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_below="@id/distance_textView"
-        tools:text="Food &amp; Drink"
+        android:text="Food &amp; Drink"
         android:textColor="#9e9e9e"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"/>
 
 </RelativeLayout>

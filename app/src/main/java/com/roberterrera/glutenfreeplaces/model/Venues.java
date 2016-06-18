@@ -5,45 +5,77 @@ package com.roberterrera.glutenfreeplaces.model;
  */
 public class Venues {
 
-    private int id;
+    private String id;
     private String name;
     private String url;
     private LocationObject location;
     private ContactObject contact;
-    private CategoryObject categories;
+//    private CategoryObject categories;
     private MenuObject menu;
     private VenuePageObject venuepage;
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public LocationObject getLocation() {
         return location;
     }
 
+    public void setLocation(LocationObject location) {
+        this.location = location;
+    }
+
     public ContactObject getContact() {
         return contact;
     }
 
-    public CategoryObject getCategories() {
-        return categories;
+    public void setContact(ContactObject contact) {
+        this.contact = contact;
     }
+
+//    public CategoryObject getCategories() {
+//        return categories;
+//    }
+//
+//    public void setCategories(CategoryObject categories) {
+//        this.categories = categories;
+//    }
 
     public MenuObject getMenu() {
         return menu;
     }
 
+    public void setMenu(MenuObject menu) {
+        this.menu = menu;
+    }
+
     public VenuePageObject getVenuepage() {
         return venuepage;
+    }
+
+    public void setVenuepage(VenuePageObject venuepage) {
+        this.venuepage = venuepage;
     }
 
     @Override

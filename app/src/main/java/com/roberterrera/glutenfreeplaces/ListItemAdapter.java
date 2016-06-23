@@ -24,28 +24,29 @@ public class ListItemAdapter extends ArrayAdapter<Venues> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        Venues place = getItem(position);
 
-        // Check if an existing view is being reused, otherwise inflate the view
+        Venues place = getItem(position);
+        String icon = place.getCategories().getCategoriesList().get(position).getIcon().getPrefix()
+                +place.getCategories().getCategoriesList().get(position).getIcon().getPrefix();
+        String distance = String.valueOf(Math.round(place.getLocation().getDistance()*.01)/10.0)+" miles away";
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_layout_main, parent, false);
         }
-        // Lookup view for data population
+
         TextView nameTextView = (TextView) convertView.findViewById(R.id.name_textView);
         TextView distanceTextView = (TextView) convertView.findViewById(R.id.distance_textView);
         TextView openStatusTextView = (TextView) convertView.findViewById(R.id.textview_status);
         ImageView placeImageImageView = (ImageView) convertView.findViewById(R.id.imageView_mainActivity);
 
-        nameTextView.setText(getItem(position).getName());
-        distanceTextView.setText(String.valueOf(Math.round(getItem(position).getLocation().getDistance()*.01)/10.0)+" miles away");
+        nameTextView.setText(place.getName());
+        distanceTextView.setText(distance);
+       // TODO: Add logic to determine if a store is open or closed, based on its hours verses the system time.
         openStatusTextView.setText("OPEN");
-//        Picasso.with(getContext())
-//                .load(getItem(position).getCategories().getIcon().getPrefix()
-//                        +getItem(position).getCategories().getIcon().getPrefix())
-//                .into(placeImageImageView);
+        Picasso.with(getContext())
+                .load(icon)
+                .into(placeImageImageView);
 
-        // Return the completed view to render on screen
         return convertView;
     }
 

@@ -1,5 +1,7 @@
 package com.roberterrera.glutenfreeplaces.model;
 
+import java.util.List;
+
 /**
  * Created by Rob on 6/17/16.
  */
@@ -10,7 +12,7 @@ public class Venues {
     private String url;
     private LocationObject location;
     private ContactObject contact;
-//    private CategoryObject categories;
+    private CategoryObject categories;
     private MenuObject menu;
     private VenuePageObject venuepage;
 
@@ -54,13 +56,13 @@ public class Venues {
         this.contact = contact;
     }
 
-//    public CategoryObject getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(CategoryObject categories) {
-//        this.categories = categories;
-//    }
+    public CategoryObject getCategories() {
+        return categories;
+    }
+
+    public void setCategories(CategoryObject categories) {
+        this.categories = categories;
+    }
 
     public MenuObject getMenu() {
         return menu;

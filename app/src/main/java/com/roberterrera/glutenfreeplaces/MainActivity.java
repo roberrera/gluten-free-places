@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.roberterrera.glutenfreeplaces.model.FoursquareResponse;
 import com.roberterrera.glutenfreeplaces.model.FoursquareResults;
 import com.roberterrera.glutenfreeplaces.model.Venues;
 import com.roberterrera.glutenfreeplaces.service.FoursquareAPIService;
@@ -86,10 +85,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
         FoursquareAPIService.Factory.getInstance().loadVenues(
-                latlon, "gluten-free", "BDDBUFQEBDW1YCOZZRDXBZMXPGM3YA3GGAMUOHLJUAQ00FOM",
-                "NP52CW1YEULLQBSCUYIAZO00VOH2RWDLLY03W10HA0X4U1P5", 20160617, "foursquare")
-
-//                "latlon, "gluten-free", @value/foursquare_api_client", "@value/foursquare_api_secret", 20160617, "foursquare")
+                latlon,
+                "gluten-free",
+                "@value/foursquare_client_id",
+                "@value/foursquare_client_secret",
+                20160617,
+                "foursquare")
                 .enqueue(new Callback<FoursquareResults>() {
                     @Override
                     public void onResponse(Call<FoursquareResults> call, Response<FoursquareResults> response) {
@@ -97,9 +98,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         // Create the adapter to convert the array to views
                         adapter = new ListItemAdapter(MainActivity.this, venuesList);
 
-                        // Attach the adapter to a ListView
                         ListView listView = (ListView) findViewById(R.id.listview_places_main);
-
                         listView.setAdapter(adapter);
 
                         // Loop through the results and add their locations to the list.
@@ -107,12 +106,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                             name = venuesList.get(j).getName();
                             distance = venuesList.get(j).getLocation().getDistance();
-//                            distance = String.valueOf(Math.round(getDistance*.01)/10.0)+" miles away";
 
-//                            if (venuesList.get(j).getCategories() != null) {
-//                                icon = venuesList.get(j).getCategories().getIcon().getPrefix()
-//                                        + venuesList.get(j).getCategories().getIcon().getSuffix();
-//                            }
+                            if (venuesList.get(j).getCategories() != null) {
+                                icon = venuesList.get(j).getCategories().getCategoriesList().get(j).getIcon().getPrefix()
+                                        + venuesList.get(j).getCategories().getCategoriesList().get(j).getIcon().getSuffix();
+                            }
 
                             adapter.notifyDataSetChanged();
                         }
@@ -201,9 +199,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
             if (networkInfo != null && networkInfo.isConnected()) {
                 requestLocationPermissions();
-                // Open the map view
-//                Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
-//                startActivity(mapIntent);
+
+                Intent mapIntent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(mapIntent);
+
                 Toast.makeText(MainActivity.this, "Tapped map button", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Map unavailable without an internet connection.", Toast.LENGTH_SHORT).show();
